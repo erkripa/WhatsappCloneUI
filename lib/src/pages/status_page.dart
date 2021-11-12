@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whatsappclone/constant.dart';
 import 'package:whatsappclone/src/app.dart';
+import 'package:whatsappclone/src/models/all_users_models.dart';
+import 'package:whatsappclone/src/models/status_models.dart';
 
 class StatusPage extends StatefulWidget {
   const StatusPage({Key? key}) : super(key: key);
@@ -18,9 +20,11 @@ class _StatusPageState extends State<StatusPage> {
         ListTile(
           leading: Stack(
             alignment: AlignmentDirectional.bottomEnd,
-            children: const [
-              CircleAvatar(),
+            children: [
               CircleAvatar(
+                backgroundImage: NetworkImage(statusData[1].imageUrl),
+              ),
+              const CircleAvatar(
                 radius: 12,
                 backgroundColor: primaryColor,
                 foregroundColor: Colors.white,
@@ -39,13 +43,17 @@ class _StatusPageState extends State<StatusPage> {
             child: Text("Recent updates",
                 style:
                     kUserMessageStyle.copyWith(fontWeight: FontWeight.bold))),
-        ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, index) => const ListTile(
-                  leading: CircleAvatar(),
-                  title: Text('Ayush'),
-                  subtitle: Text("asfh"),
-                ))
+        Expanded(
+          child: ListView.builder(
+              itemCount: statusData.length,
+              itemBuilder: (context, index) => ListTile(
+                    leading: CircleAvatar(
+                      backgroundImage: NetworkImage(statusData[index].imageUrl),
+                    ),
+                    title: Text(statusData[index].name),
+                    subtitle: Text(statusData[index].time),
+                  )),
+        )
       ],
     );
   }
